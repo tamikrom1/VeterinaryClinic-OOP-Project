@@ -3,6 +3,7 @@ public class Veterinarian {
     private String name;
     private String specialization;
     private int experience;
+    private int id;
 
     public Veterinarian(int vetId, String name,String specialization, int experience){
         this.vetId=vetId;
