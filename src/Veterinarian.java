@@ -3,13 +3,12 @@ public class Veterinarian {
     private String name;
     private String specialization;
     private int experience;
-    private int id;
 
     public Veterinarian(int vetId, String name,String specialization, int experience){
         this.vetId=vetId;
         this.name=name;
         this.specialization=specialization;
-        this.experience=experience;
+        setExperience(experience);
     }
     public Veterinarian(){
         this.vetId=0;
@@ -23,7 +22,13 @@ public class Veterinarian {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if(name!=null && !name.trim().isEmpty()){
+            this.name = name;
+        }
+        else{
+            System.out.println("Warning: Name cannot be empty!");
+        }
+
     }
 
     public int getExperience() {
@@ -31,7 +36,13 @@ public class Veterinarian {
     }
 
     public void setExperience(int experience) {
-        this.experience = experience;
+        if(experience >= 0){
+            this.experience = experience;
+        }
+        else {
+            System.out.println("Warning: experience can't be negative! Setting to 0.");
+            this.experience=0;
+        }
     }
 
     public int getVetId() {
