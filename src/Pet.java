@@ -8,7 +8,7 @@ public class Pet {
     public Pet(int petId, String name, int age, String species, String ownerName){
         this.petId = petId;
         this.name=name;
-        this.age=age;
+        setAge(age);
         this.species=species;
         this.ownerName=ownerName;
     }
@@ -25,7 +25,12 @@ public class Pet {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if(name!=null && !name.trim().isEmpty()){
+            this.name = name;
+        }
+        else{
+            System.out.println("Warning: Name cannot be empty!");
+        }
     }
 
     public int getAge() {
@@ -33,7 +38,13 @@ public class Pet {
     }
 
     public void setAge(int age) {
-        this.age = age;
+        if(age >= 0){
+            this.age = age;
+        }
+        else {
+            System.out.println("Warning: age can't be negative! Setting to 0.");
+            this.age=0;
+        }
     }
 
     public int getPetId() {
@@ -49,7 +60,12 @@ public class Pet {
     }
 
     public void setSpecies(String species) {
-        this.species = species;
+        if(species!=null && !species.trim().isEmpty()){
+            this.species = species;
+        }
+        else{
+            System.out.println("Warning: Species cannot be empty!");
+        }
     }
 
     public String getOwnerName() {
@@ -57,7 +73,12 @@ public class Pet {
     }
 
     public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+        if(ownerName!=null && !ownerName.trim().isEmpty()){
+            this.ownerName = ownerName;
+        }
+        else{
+            System.out.println("Warning: Owner name cannot be empty!");
+        }
     }
 
     public boolean isYoung(){

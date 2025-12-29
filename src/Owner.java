@@ -10,7 +10,7 @@ public class Owner {
         this.ownerId=ownerId;
         this.name=name;
         this.phone=phone;
-        this.numberOfPets=numberOfPets;
+        setNumberOfPets(numberOfPets);
     }
     public Owner(){
         this.ownerId=0;
@@ -24,7 +24,12 @@ public class Owner {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if(name!=null && !name.trim().isEmpty()){
+            this.name = name;
+        }
+        else{
+            System.out.println("Warning: Name cannot be empty!");
+        }
     }
 
     public int getNumberOfPets() {
@@ -32,7 +37,13 @@ public class Owner {
     }
 
     public void setNumberOfPets(int numberOfPets) {
-        this.numberOfPets = numberOfPets;
+        if(numberOfPets >= 0){
+            this.numberOfPets = numberOfPets;
+        }
+        else {
+            System.out.println("Warning: number of pets can't be negative! Setting to 0.");
+            this.numberOfPets=0;
+        }
     }
 
     public int getOwnerId() {
