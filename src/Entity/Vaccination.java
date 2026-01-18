@@ -1,11 +1,13 @@
+package Entity;
+
 public class Vaccination extends Treatment{
     private String vaccineName;
     private int doseNumber;
 
     public Vaccination(double cost, int duration, boolean completed, String vaccineName, int doseNumber){
         super("Vaccination", cost, duration, completed);
-        this.vaccineName = vaccineName;
-        this.doseNumber = doseNumber;
+        setVaccineName(vaccineName);
+        setDoseNumber(doseNumber);
     }
 
     public String getVaccineName() {
@@ -17,15 +19,35 @@ public class Vaccination extends Treatment{
     }
 
     public void setVaccineName(String vaccineName) {
-        this.vaccineName = vaccineName;
+        if(vaccineName==null || vaccineName.trim().isEmpty()){
+            throw new IllegalArgumentException("Vaccine name cannot be empty!");
+        }
+        this.vaccineName=vaccineName;
     }
 
     public void setDoseNumber(int doseNumber) {
-        if(doseNumber>=0)this.doseNumber = doseNumber;
+        if(doseNumber<0){
+            throw new IllegalArgumentException("Number of dose cannot be negative!");
+        }
+        this.doseNumber=doseNumber;
+    }
+
+
+    //Abstract implementation
+    @Override
+    public void work(){
+        System.out.println(treatmentName + " is performing with " + vaccineName +" vaccine "+ "\nNumber of dose : "+ doseNumber);
+    }
+
+    @Override
+    public String getTreatment(){
+        return "Vaccine";
     }
 
 
 
+
+    //Vaccine methods
     @Override
     public void performTreatment() {
         System.out.println("Administering vaccine: " + vaccineName);

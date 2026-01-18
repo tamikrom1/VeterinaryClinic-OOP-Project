@@ -1,12 +1,16 @@
+package Entity;
+
 public class Surgery extends Treatment{
     private String anesthesiaType;
     private int riskLevel;
 
     public Surgery(double cost, int duration, boolean completed, String anesthesiaType, int riskLevel){
         super("Surgery", cost, duration, completed);
-        this.anesthesiaType=anesthesiaType;
-        this.riskLevel=riskLevel;
+        setAnesthesiaType(anesthesiaType);
+        setRiskLevel(riskLevel);
     }
+
+
 
     public int getRiskLevel() {
         return riskLevel;
@@ -17,14 +21,34 @@ public class Surgery extends Treatment{
     }
 
     public void setRiskLevel(int riskLevel) {
-        if(riskLevel>=0)this.riskLevel = riskLevel;
+        if(riskLevel<0){
+            throw new IllegalArgumentException("Risk level cannot be negative!");
+        }
+        this.riskLevel=riskLevel;
     }
 
     public void setAnesthesiaType(String anesthesiaType) {
-        this.anesthesiaType = anesthesiaType;
+        if(anesthesiaType==null || anesthesiaType.trim().isEmpty()){
+            throw new IllegalArgumentException("Anesthesia type cannot be empty");
+        }
+        this.anesthesiaType=anesthesiaType;
     }
 
 
+    //Abstract implementation
+    @Override
+    public void work(){
+        System.out.println(treatmentName + " is performing with " + anesthesiaType + " anesthesia "+"\nRisk level: "+ riskLevel);
+    }
+
+    @Override
+    public String getTreatment(){
+        return "Surgery";
+    }
+
+
+
+    //Surgery methods
 
     @Override
     public void performTreatment() {

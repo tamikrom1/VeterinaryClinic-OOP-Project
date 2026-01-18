@@ -1,13 +1,15 @@
-public class Treatment {
+package Entity;
+
+public abstract class Treatment {
     protected String treatmentName;
     protected double cost;
     protected int duration;
     protected boolean completed;
 
     public Treatment(String treatmentName, double cost, int duration, boolean completed){
-        this.treatmentName=treatmentName;
-        this.cost=cost;
-        this.duration=duration;
+        setTreatmentName(treatmentName);
+        setCost(cost);
+        setDuration(duration);
         this.completed=completed;
     }
 
@@ -28,24 +30,42 @@ public class Treatment {
     }
 
     public void setTreatmentName(String treatmentName) {
-        this.treatmentName = treatmentName;
+        if (treatmentName == null || treatmentName.trim().isEmpty()){
+            throw new IllegalArgumentException("Treatment name cannot be empty!");
+        }
+        this.treatmentName=treatmentName;
     }
 
     public void setCost(double cost) {
-        if(cost>=0) this.cost = cost;
+        if(cost<0){
+            throw new IllegalArgumentException("Cost cannot be negative!");
+        }
+        this.cost=cost;
     }
 
     public void setDuration(int duration) {
-        if (duration>=0)this.duration = duration;
+        if(duration<0){
+            throw new IllegalArgumentException("Duration time cannot be negative!");
+        }
+        this.duration=duration;
     }
 
     public void setCompleted(boolean completed) {
-        this.completed = completed;
+        this.completed=completed;
     }
 
 
 
-    public void performTreatment(){
+
+    //Abstract methods
+    public abstract void work();
+
+    public abstract String getTreatment();
+
+
+
+    //treatment methods
+    public  void performTreatment(){
         System.out.println("Performing treatment: " + treatmentName);
     }
 
@@ -53,7 +73,7 @@ public class Treatment {
         return cost;
     }
 
-    public void showDetails(){
+    public  void showDetails(){
         System.out.println("Treatment name: " + treatmentName + "\nDurations: "+ duration + " minutes");
     }
 
