@@ -1,4 +1,4 @@
-import java.util.Objects;
+package Entity;
 
 public class Owner {
     private int ownerId;

@@ -1,3 +1,5 @@
+package Entity;
+
 public class Veterinarian {
     private int vetId;
     private String name;

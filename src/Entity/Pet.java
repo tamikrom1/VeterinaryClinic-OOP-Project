@@ -1,3 +1,5 @@
+package Entity;
+
 public class Pet {
     private int petId;
     private String name;
@@ -7,7 +9,7 @@ public class Pet {
 
     public Pet(int petId, String name, int age, String species, String ownerName){
         this.petId = petId;
-        this.name=name;
+        setName(name);
         setAge(age);
         this.species=species;
         this.ownerName=ownerName;
