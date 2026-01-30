@@ -15,15 +15,19 @@ public class VeterinaryClinicMenu implements Menu {
         this.scanner=new Scanner(System.in);
 
         //Test data
-        allTreatment.add(new Surgery(1000,30,false,"General",2));
-        allTreatment.add(new Vaccination(2000,40,false,"Rabies", 2));
+        try {
+            allTreatment.add(new Surgery(1000, 30, false, "General", 2));
+            allTreatment.add(new Vaccination(2000, 40, false, "Rabies", 2));
+        }catch(IllegalArgumentException e){
+            System.out.println("Error initializing test data: " + e.getMessage());
+        }
     }
 
     private void addSurgery(){
         try {
             System.out.println("\n---ADD SURGERY---");
             System.out.println("Enter surgery cost: ");
-            double cost = scanner.nextInt();
+            double cost = scanner.nextDouble();
             scanner.nextLine();
 
             System.out.println("Enter duration: ");
@@ -50,56 +54,56 @@ public class VeterinaryClinicMenu implements Menu {
     }
 
     private void addVaccination(){
-        try {
-            System.out.println("\n---ADD VACCINATION---");
-
-            System.out.println("Enter vaccination cost: ");
-            double cost = scanner.nextInt();
+        try{
+            System.out.println("Cost: ");
+            int cost = scanner.nextInt();
             scanner.nextLine();
-            System.out.println("Enter duration: ");
+
+            System.out.println("Duration: ");
             int duration = scanner.nextInt();
             scanner.nextLine();
 
-            System.out.println("Enter vaccination status: ");
-            boolean completed = scanner.nextBoolean();
+            System.out.println("Completed: ");
+            boolean completed=scanner.nextBoolean();
 
-            System.out.println("Enter vaccination name: ");
+            System.out.println("Vaccine name: ");
             String vaccineName = scanner.nextLine();
 
-            System.out.println("Enter number of dose: ");
+            System.out.println("Dose number: ");
             int doseNumber = scanner.nextInt();
             scanner.nextLine();
 
-            Treatment treatment = new Vaccination(cost, duration, completed, vaccineName, doseNumber);
+            Treatment treatment = new Vaccination(cost,duration,completed,vaccineName,doseNumber);
             allTreatment.add(treatment);
 
-            System.out.println("\n Vaccination added successfully!");
+
         }catch (IllegalArgumentException e){
-            System.out.println("❌" + e.getMessage());
+            System.out.println();
         }
     }
 
     private void viewSurgery(){
-        try {
-            System.out.println("================================");
-            System.out.println("          Surgery only");
-            System.out.println("================================");
+        try{
+            System.out.println("===============================");
+            System.out.println("     Surgery only");
+            System.out.println("===============================");
+
             int surgeryCount = 0;
-            for (Treatment s : allTreatment) {
-                if (s instanceof Surgery) {
+            for(Treatment s: allTreatment){
+                if(s instanceof Surgery){
                     Surgery surgery = (Surgery) s;
                     surgeryCount++;
                     System.out.println(surgeryCount + "." + surgery.getTreatmentName());
-                    System.out.println("   Surgery cost: " + surgery.getCost());
-                    System.out.println("   Surgery duration: " + surgery.getDuration());
-                    System.out.println("   Anesthesia type: " + surgery.getAnesthesiaType());
-                    System.out.println("   Risk level: " + surgery.getRiskLevel());
+                    System.out.println("Surgery cost: " + surgery.getCost());
+                    System.out.println("Surgery duration: " + surgery.getDuration());
+                    System.out.println("Anesthesia type: " + surgery.getAnesthesiaType());
+                    System.out.println("Risk level: " + surgery.getRiskLevel());
                     surgery.howRisky();
                     System.out.println();
                 }
             }
-            if (surgeryCount == 0) {
-                System.out.println("No surgery found.");
+            if(surgeryCount == 0){
+                System.out.println("No surgery found. ");
             }
         }catch (IllegalArgumentException e){
             System.out.println("❌" + e.getMessage());
@@ -107,61 +111,69 @@ public class VeterinaryClinicMenu implements Menu {
     }
 
     private void viewVaccination(){
-        try {
-            System.out.println("================================");
-            System.out.println("          Vaccination only");
-            System.out.println("================================");
+        try{
+            System.out.println("==========================");
+            System.out.println("Vaccination only");
+            System.out.println("==========================");
+
             int vaccinationCount = 0;
-            for (Treatment s : allTreatment) {
-                if (s instanceof Vaccination) {
+            for(Treatment s: allTreatment){
+                if(s instanceof Vaccination){
                     Vaccination vaccination = (Vaccination) s;
                     vaccinationCount++;
                     System.out.println(vaccinationCount + "." + vaccination.getTreatmentName());
-                    System.out.println("   Surgery cost: " + vaccination.getCost());
-                    System.out.println("   Surgery duration: " + vaccination.getDuration());
-                    System.out.println("   Vaccine name: " + vaccination.getVaccineName());
-                    System.out.println("   Number of dose: " + vaccination.getDoseNumber());
-                    if (vaccination.needsBooster()) {
-                        System.out.println("Vaccine need a booster");
+                    System.out.println("Vaccine cost: " + vaccination.getCost());
+                    System.out.println("Vaccine duration: " + vaccination.getDuration());
+                    System.out.println("Vaccine name: " + vaccination.getVaccineName());
+                    System.out.println("Dose number: " + vaccination.getDoseNumber());
+                    if(vaccination.needsBooster()){
+                        System.out.println("Vaccine need a booster. ");
                     }
-                    System.out.println();
                 }
+                System.out.println();
             }
-            if (vaccinationCount == 0) {
-                System.out.println("No vaccination found.");
+            if(vaccinationCount == 0){
+                System.out.println("No vaccination found. ");
             }
+
         }catch (IllegalArgumentException e){
             System.out.println("❌" + e.getMessage());
         }
     }
 
     private void viewAllTreatment(){
-        try {
-            System.out.println("\n==============================");
-            System.out.println("     ALL TREATMENT(POLYMORPHIC LIST)");
-            System.out.println("==============================");
-            if (allTreatment.isEmpty()) {
-                System.out.println("No treatment found.");
-                return;
-            }
-            System.out.println("Total treatment: " + allTreatment.size());
+        try{
+            System.out.println("=======================");
+            System.out.println("All Treatment");
+            System.out.println("=======================");
+
+            System.out.println("Total treatments: " + allTreatment.size());
             System.out.println();
-            for (int i = 0; i < allTreatment.size(); i++) {
+            for (int i=0;i<allTreatment.size();i++){
+
                 Treatment s = allTreatment.get(i);
-                System.out.println((i + 1) + "." + s);
-                if (s instanceof Surgery) {
-                    Surgery surgery = (Surgery) s;
-                    surgery.howRisky();
-                } else if (s instanceof Vaccination) {
+                if(s instanceof Vaccination){
                     Vaccination vaccination = (Vaccination) s;
-                    if (vaccination.needsBooster()) {
-                        System.out.println("Vaccine need a booster");
+                    System.out.println("Vaccine cost: " + vaccination.getCost());
+                    System.out.println("Vaccine duration: " + vaccination.getDuration());
+                    System.out.println("Vaccine name: " + vaccination.getVaccineName());
+                    System.out.println("Dose number: " + vaccination.getDoseNumber());
+                    if(vaccination.needsBooster()){
+                        System.out.println("Vaccine need a booster. ");
                     }
+                    System.out.println();
+                }else if(s instanceof Surgery){
+                    Surgery surgery = (Surgery) s;
+                    System.out.println("Surgery cost: " + surgery.getCost());
+                    System.out.println("Surgery duration: "+ surgery.getDuration());
+                    System.out.println("Anethesia type: " + surgery.getAnesthesiaType());
+                    System.out.println("Risk level: "+ surgery.getRiskLevel());
+                    surgery.howRisky();
+                    System.out.println();
                 }
-                System.out.println();
             }
         }catch (IllegalArgumentException e){
-            System.out.println("❌" + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 

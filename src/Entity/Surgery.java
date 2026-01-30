@@ -10,8 +10,6 @@ public class Surgery extends Treatment{
         setRiskLevel(riskLevel);
     }
 
-
-
     public int getRiskLevel() {
         return riskLevel;
     }
