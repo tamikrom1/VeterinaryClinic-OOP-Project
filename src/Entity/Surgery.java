@@ -4,8 +4,8 @@ public class Surgery extends Treatment{
     private String anesthesiaType;
     private int riskLevel;
 
-    public Surgery(double cost, int duration, boolean completed, String anesthesiaType, int riskLevel){
-        super("Surgery", cost, duration, completed);
+    public Surgery(int treatmentId, double cost, int duration, boolean completed, String anesthesiaType, int riskLevel){
+        super(treatmentId,"Surgery", cost, duration, completed);
         setAnesthesiaType(anesthesiaType);
         setRiskLevel(riskLevel);
     }

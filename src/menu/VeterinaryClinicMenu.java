@@ -27,6 +27,11 @@ public class VeterinaryClinicMenu implements Menu {
     private void addSurgery() {
         try {
             System.out.println("\n---ADD SURGERY---");
+
+            System.out.println("Id:");
+            int treatmentId = scanner.nextInt();
+            scanner.nextLine();
+
             System.out.println("Enter surgery cost: ");
             double cost = scanner.nextDouble();
             scanner.nextLine();
@@ -37,6 +42,7 @@ public class VeterinaryClinicMenu implements Menu {
 
             System.out.println("Enter surgery status: ");
             boolean completed = scanner.nextBoolean();
+            scanner.nextLine();
 
             System.out.println("Enter anesthesia type: ");
             String anesthesiaType = scanner.nextLine();
@@ -45,7 +51,7 @@ public class VeterinaryClinicMenu implements Menu {
             int riskLevel = scanner.nextInt();
             scanner.nextLine();
 
-            Surgery surgery = new Surgery(cost, duration, completed, anesthesiaType, riskLevel);
+            Surgery surgery = new Surgery(treatmentId, cost, duration, completed, anesthesiaType, riskLevel);
             treatmentDAO.insertSurgery(surgery);
 
             System.out.println("\n Surgery added successfully!");
@@ -59,6 +65,10 @@ public class VeterinaryClinicMenu implements Menu {
 
     private void addVaccination() {
         try {
+            System.out.println("Id:");
+            int treatmentId = scanner.nextInt();
+            scanner.nextLine();
+
             System.out.println("Cost: ");
             int cost = scanner.nextInt();
             scanner.nextLine();
@@ -78,7 +88,7 @@ public class VeterinaryClinicMenu implements Menu {
             int doseNumber = scanner.nextInt();
             scanner.nextLine();
 
-            Vaccination vaccination = new Vaccination(cost, duration, completed, vaccineName, doseNumber);
+            Vaccination vaccination = new Vaccination(treatmentId, cost, duration, completed, vaccineName, doseNumber);
             treatmentDAO.insertVaccination(vaccination);
 
 
@@ -196,7 +206,7 @@ public class VeterinaryClinicMenu implements Menu {
                 int newDosNum = doseInput.trim().isEmpty() ?
                         vaccination.getDoseNumber() : Integer.parseInt(doseInput);
 
-                Vaccination updatedVac = new Vaccination(newCost, newDuration, newComplete, newVacName, newDosNum);
+                Vaccination updatedVac = new Vaccination(treatmentId, newCost, newDuration, newComplete, newVacName, newDosNum);
                 treatmentDAO.updateVaccination(updatedVac);
 
             } else if (existingTreatment instanceof Surgery) {
@@ -212,7 +222,7 @@ public class VeterinaryClinicMenu implements Menu {
                 int newRisk = riskInput.trim().isEmpty() ?
                         surgery.getRiskLevel() : Integer.parseInt(riskInput);
 
-                Surgery updatedSur = new Surgery(newCost, newDuration, newComplete, newAnes, newRisk);
+                Surgery updatedSur = new Surgery(treatmentId, newCost, newDuration, newComplete, newAnes, newRisk);
                 treatmentDAO.updateSurgery(updatedSur);
             }
 

@@ -12,7 +12,7 @@ public class TreatmentDAO {
 
     public boolean insertVaccination(Vaccination vaccination) {
         String sql = "INSERT INTO treatment (treatment_name, cost, duration, completed, vaccine_name, dose_number) " +
-                "VALUES ('Vaccination', ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         Connection connection = DatabaseConnection.getConnection();
         if (connection == null) return false;
@@ -46,7 +46,7 @@ public class TreatmentDAO {
 
     public boolean insertSurgery(Surgery surgery){
         String sql = "INSERT INTO treatment (treatment_name, cost, duration, completed, anesthesia_type, risk_level) " +
-                "VALUES ('Surgery', ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         Connection connection = DatabaseConnection.getConnection();
         if (connection == null) return false;
@@ -224,11 +224,12 @@ public class TreatmentDAO {
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setDouble(2, vaccination.getCost());
-            statement.setInt(3, vaccination.getDuration());
-            statement.setBoolean(4, vaccination.getComplete());
-            statement.setString(5, vaccination.getVaccineName());
-            statement.setInt(6,vaccination.getDoseNumber());
+            statement.setDouble(1, vaccination.getCost());
+            statement.setInt(2, vaccination.getDuration());
+            statement.setBoolean(3, vaccination.getComplete());
+            statement.setString(4, vaccination.getVaccineName());
+            statement.setInt(5, vaccination.getDoseNumber());
+            statement.setInt(6, vaccination.getTreatmentId());
 
             int rowsUpdated = statement.executeUpdate();
             statement.close();
@@ -259,11 +260,13 @@ public class TreatmentDAO {
 
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setDouble(2, surgery.getCost());
-            statement.setInt(3,surgery.getDuration());
-            statement.setBoolean(4,surgery.getComplete());
-            statement.setString(5, surgery.getAnesthesiaType());
-            statement.setInt(6,surgery.getRiskLevel());
+            statement.setDouble(1, surgery.getCost());
+            statement.setInt(2, surgery.getDuration());
+            statement.setBoolean(3, surgery.getComplete());
+            statement.setString(4, surgery.getAnesthesiaType());
+            statement.setInt(5, surgery.getRiskLevel());
+            statement.setInt(6, surgery.getTreatmentId());
+
 
             int rowsUpdated = statement.executeUpdate();
             statement.close();
@@ -313,18 +316,18 @@ public class TreatmentDAO {
         return false;
     }
 
-    public List<Treatment> searchByName(String treatmentName) {
+    public List<Treatment> searchByName(String treatment_name) {
         List<Treatment> treatmentList = new ArrayList<>();
 
         // ILIKE for case-insensitive search, % for partial match
-        String sql = "SELECT * FROM treatment WHERE treatment_name ILIKE ? ORDER BY treatmentName";
+        String sql = "SELECT * FROM treatment WHERE treatment_name ILIKE ? ORDER BY treatment_name";
 
         Connection connection = DatabaseConnection.getConnection();
         if (connection == null) return treatmentList;
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, "%" + treatmentName + "%");  // % = wildcard
+            statement.setString(1, "%" + treatment_name + "%");  // % = wildcard
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -338,7 +341,7 @@ public class TreatmentDAO {
             resultSet.close();
             statement.close();
 
-            System.out.println("✅ Found " + treatmentList.size() + " treatment matching '" + treatmentName + "'");
+            System.out.println("✅ Found " + treatmentList.size() + " treatment matching '" + treatment_name + "'");
 
         } catch (SQLException e) {
             System.out.println("❌ Search by treatment name failed!");
@@ -470,7 +473,7 @@ public class TreatmentDAO {
         String treatmentName = resultSet.getString("treatment_name");
         double cost = resultSet.getDouble("cost");
         int duration = resultSet.getInt("duration");
-        boolean completed = resultSet.getBoolean("is_completed");
+        boolean completed = resultSet.getBoolean("completed");
 
 
         Treatment treatment = null;
@@ -478,12 +481,12 @@ public class TreatmentDAO {
         if ("Vaccination".equals(treatmentName)) {
             String vaccineName = resultSet.getString("vaccine_name");
             int doseNumber = resultSet.getInt("dose_number");
-            treatment = new Vaccination(cost, duration, completed, vaccineName, doseNumber);
+            treatment = new Vaccination(treatmentId, cost, duration, completed, vaccineName, doseNumber);
 
         } else if ("Surgery".equals(treatmentName)) {
             String anesthesiaType = resultSet.getString("anesthesia_type");
             int riskLevel = resultSet.getInt("risk_level");
-            treatment = new Surgery(cost,duration,completed, anesthesiaType, riskLevel);
+            treatment = new Surgery(treatmentId, cost,duration,completed, anesthesiaType, riskLevel);
         }
 
         return treatment;
