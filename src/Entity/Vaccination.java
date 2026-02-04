@@ -4,8 +4,8 @@ public class Vaccination extends Treatment{
     private String vaccineName;
     private int doseNumber;
 
-    public Vaccination(double cost, int duration, boolean completed, String vaccineName, int doseNumber){
-        super("Vaccination", cost, duration, completed);
+    public Vaccination(int treatmentId ,double cost, int duration, boolean completed, String vaccineName, int doseNumber){
+        super(treatmentId,"Vaccination", cost, duration, completed);
         setVaccineName(vaccineName);
         setDoseNumber(doseNumber);
     }
@@ -41,7 +41,7 @@ public class Vaccination extends Treatment{
 
     @Override
     public String getTreatment(){
-        return "Vaccine";
+        return "Vaccination";
     }
 
 

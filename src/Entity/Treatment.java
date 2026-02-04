@@ -1,16 +1,22 @@
 package Entity;
 
 public abstract class Treatment {
+    protected int treatmentId;
     protected String treatmentName;
     protected double cost;
     protected int duration;
     protected boolean completed;
 
-    public Treatment(String treatmentName, double cost, int duration, boolean completed){
+    public Treatment(int treatmentId, String treatmentName, double cost, int duration, boolean completed){
+        this.treatmentId=treatmentId;
         setTreatmentName(treatmentName);
         setCost(cost);
         setDuration(duration);
         this.completed=completed;
+    }
+
+    public int getTreatmentId() {
+        return treatmentId;
     }
 
     public String getTreatmentName() {
